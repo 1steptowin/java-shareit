@@ -6,24 +6,19 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.exceptions.UserNotFoundException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 @Primary
 @Component
-public class UserStorageImpl implements UserStorage{
-    private final HashMap<Integer,User> users = new HashMap<>();
+public class UserStorageImpl implements UserStorage {
+    private final HashMap<Integer, User> users = new HashMap<>();
 
     private int nextId = 1;
 
     @Override
     public List<User> getAllUsers() {
-        List<User> userList = new ArrayList<>();
-        for (User user:users.values()) {
-            userList.add(user);
-        }
-        return userList;
+        return new ArrayList<>(users.values());
     }
 
     @Override
@@ -39,15 +34,15 @@ public class UserStorageImpl implements UserStorage{
     @Override
     public User addUser(User user) throws UserNotFoundException {
         users.put(nextId++, user);
-        User user1 = getUserById(nextId-1);
-        user1.setId(nextId-1);
+        User user1 = getUserById(nextId - 1);
+        user1.setId(nextId - 1);
         return user1;
     }
 
     @Override
     public User updateUser(User user) throws UserNotFoundException {
         users.get(user.getId());
-        users.put(user.getId(),user);
+        users.put(user.getId(), user);
         return getUserById(user.getId());
     }
 

@@ -19,14 +19,16 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
+
     private final ItemService itemService;
+
     @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @PostMapping
-    public Item addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId ) throws UserNotFoundException, InvalidItemAvailable {
+    public Item addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId) throws UserNotFoundException, InvalidItemAvailable {
         return itemService.addItem(itemDto, userId);
     }
 

@@ -9,8 +9,6 @@ import ru.practicum.shareit.item.exceptions.BadUserForItem;
 import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
 import ru.practicum.shareit.item.exceptions.TextIsBlank;
 import ru.practicum.shareit.user.exceptions.ErrorResponse;
-import ru.practicum.shareit.user.exceptions.UserDuplicateException;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
 
 @RestControllerAdvice
 @Slf4j
@@ -23,7 +21,7 @@ public class ItemErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidItemAvailableException (final InvalidItemAvailable e) {
+    public ErrorResponse handleInvalidItemAvailableException(final InvalidItemAvailable e) {
         return new ErrorResponse(e.getMessage());
     }
 

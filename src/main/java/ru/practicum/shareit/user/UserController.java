@@ -2,7 +2,6 @@ package ru.practicum.shareit.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.exceptions.UserNotFoundException;
 
@@ -22,12 +21,13 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping()
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping( "/{id}")
+    @GetMapping("/{id}")
     public User getUserById(@PathVariable("id") Integer userId) throws UserNotFoundException {
         return userService.getUserById(userId);
     }

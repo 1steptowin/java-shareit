@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item.exceptions;
 
-public class TextIsBlank extends Exception{
+public class TextIsBlank extends Exception {
     public TextIsBlank() {
     }
 
