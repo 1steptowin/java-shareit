@@ -2,8 +2,6 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.lang.NonNull;
-import ru.practicum.shareit.request.ItemRequest;
 
 import javax.validation.constraints.NotBlank;
 

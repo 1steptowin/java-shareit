@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -12,8 +12,8 @@ import java.util.List;
 
 @Component
 @Primary
-public class ItemStorageImpl implements ItemStorage{
-    private HashMap<Integer, Item> items = new HashMap<>();
+public class ItemStorageImpl implements ItemStorage {
+    private final HashMap<Integer, Item> items = new HashMap<>();
     private int nextId = 1;
 
     @Override
@@ -21,8 +21,8 @@ public class ItemStorageImpl implements ItemStorage{
         Item item = ItemMapper.toItem(itemDto);
         item.setId(nextId);
         item.setOwner(userId);
-        items.put(nextId++,item);
-        return getItem(nextId-1);
+        items.put(nextId++, item);
+        return getItem(nextId - 1);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ItemStorageImpl implements ItemStorage{
         Item item = ItemMapper.toItem(itemDto);
         item.setId(itemId);
         item.setOwner(getItem(itemId).getOwner());
-        items.put(itemId,item);
+        items.put(itemId, item);
         return items.get(itemId);
     }
 
@@ -42,8 +42,8 @@ public class ItemStorageImpl implements ItemStorage{
     @Override
     public List<Item> getItems(int userId) {
         List<Item> list = new ArrayList<>();
-        for (Item item: items.values()) {
-            if (item.getOwner()==userId) {
+        for (Item item : items.values()) {
+            if (item.getOwner() == userId) {
                 list.add(item);
             }
         }
@@ -53,9 +53,9 @@ public class ItemStorageImpl implements ItemStorage{
     @Override
     public List<Item> search(String text) {
         List<Item> list = new ArrayList<>();
-        for (Item item: items.values()) {
+        for (Item item : items.values()) {
             if (item.getDescription().toLowerCase().contains(text.toLowerCase()) || item.getName().toLowerCase().contains(text.toLowerCase())) {
-                if (item.getAvailable()==true) {
+                if (item.getAvailable()) {
                     list.add(item);
                 }
             }
