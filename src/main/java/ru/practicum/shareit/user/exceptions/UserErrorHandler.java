@@ -14,9 +14,10 @@ public class UserErrorHandler {
     public ErrorResponse handleDuplicateException(final UserDuplicateException e) {
         return new ErrorResponse(e.getMessage());
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundUser (final UserNotFoundException e) {
+    public ErrorResponse handleNotFoundUser(final UserNotFoundException e) {
         return new ErrorResponse(e.getMessage());
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     private final ItemStorage itemStorage;
     private final UserService userService;
+
     @Autowired
     public ItemServiceImpl(ItemStorage itemStorage, UserService userService) {
         this.itemStorage = itemStorage;
@@ -27,10 +28,10 @@ public class ItemServiceImpl implements ItemService {
         if (userService.getUserById(userId) == null) {
             throw new UserNotFoundException("Not found");
         }
-        if (itemDto.getAvailable()==null) {
+        if (itemDto.getAvailable() == null) {
             throw new InvalidItemAvailable("Bad request");
         }
-        return itemStorage.addItem(itemDto,userId);
+        return itemStorage.addItem(itemDto, userId);
     }
 
     @Override
@@ -38,19 +39,11 @@ public class ItemServiceImpl implements ItemService {
         if (itemStorage.getItem(itemId).getOwner() != userId) {
             throw new BadUserForItem("Bad user for item");
         } else {
-            if (itemDto.getAvailable()==null) {
-                itemDto.setAvailable(itemStorage.getItem(itemId).getAvailable());
-            }
-            if (itemDto.getName()==null) {
-                itemDto.setName(itemStorage.getItem(itemId).getName());
-            }
-            if (itemDto.getDescription()==null) {
-                itemDto.setDescription(itemStorage.getItem(itemId).getDescription());
-            }
-            if (itemDto.getRequest()==null) {
-                itemDto.setRequest(itemStorage.getItem(itemId).getRequest());
-            }
-            return itemStorage.updateItem(itemDto,itemId);
+            if (itemDto.getAvailable() == null) itemDto.setAvailable(itemStorage.getItem(itemId).getAvailable());
+            if (itemDto.getName() == null) itemDto.setName(itemStorage.getItem(itemId).getName());
+            if (itemDto.getDescription() == null) itemDto.setDescription(itemStorage.getItem(itemId).getDescription());
+            if (itemDto.getRequest() == null) itemDto.setRequest(itemStorage.getItem(itemId).getRequest());
+            return itemStorage.updateItem(itemDto, itemId);
         }
 
     }
