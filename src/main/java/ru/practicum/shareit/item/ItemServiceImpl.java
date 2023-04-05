@@ -10,6 +10,7 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.exceptions.UserNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,7 +63,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> search(String text) throws TextIsBlank {
         if (text.isBlank()) {
-            return null;
+            return new ArrayList<>();
         }
         return itemStorage.search(text);
     }
