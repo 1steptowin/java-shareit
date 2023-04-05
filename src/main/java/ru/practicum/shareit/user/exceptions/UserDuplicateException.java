@@ -4,7 +4,7 @@ public class UserDuplicateException extends Exception {
     public UserDuplicateException() {
     }
 
-    UserDuplicateException(String message) {
+    public UserDuplicateException(String message) {
         super(message);
     }
 }

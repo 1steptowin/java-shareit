@@ -29,9 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) throws UserDuplicateException, UserNotFoundException {
-        checkForDuplicate(user);
-        user.setId(userStorage.getAllUsers().size() + 1);
-        return userStorage.addUser(user);
+        if (!checkForDuplicate(user)) {
+            user.setId(userStorage.getAllUsers().size() + 1);
+            return userStorage.addUser(user);
+        } else throw new UserDuplicateException("Duplicate user");
     }
 
     @Override
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void checkForDuplicate(User user) throws UserDuplicateException {
+    private boolean checkForDuplicate(User user) throws UserDuplicateException {
         List<User> userList = (List<User>) userStorage.getAllUsers();
         if (userList != null) {
             for (User user1 : userList) {
@@ -70,6 +71,8 @@ public class UserServiceImpl implements UserService {
                     throw new UserDuplicateException();
                 }
             }
+            return false;
         }
+        return true;
     }
 }
