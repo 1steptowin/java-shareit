@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
         this.userStorage = userStorage;
     }
 
-
     @Override
     public List<User> getAllUsers() {
         return (List<User>) userStorage.getAllUsers();
