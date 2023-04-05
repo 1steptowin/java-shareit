@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         List<User> userList = (List<User>) userStorage.getAllUsers();
         if (userList != null) {
             for (User user1 : userList) {
-                if (user1.getEmail().equals(user.getEmail()) & user1.getId() != user.getId()) {
+                if (user1.getEmail().equals(user.getEmail()) && user1.getId() != user.getId()) {
                     throw new UserDuplicateException();
                 }
             }
