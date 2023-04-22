@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-
+    private static final String userIdHeader = "X-Sharer-User-Id";
     private final ItemService itemService;
 
     @Autowired
@@ -28,12 +28,12 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId) throws UserNotFoundException, InvalidItemAvailable {
+    public Item addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(userIdHeader) int userId) throws UserNotFoundException, InvalidItemAvailable {
         return itemService.addItem(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public Item updateItem(@PathVariable("itemId") int itemId, @RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") int userId) throws BadUserForItem {
+    public Item updateItem(@PathVariable("itemId") int itemId, @RequestBody ItemDto itemDto, @RequestHeader(userIdHeader) int userId) throws BadUserForItem {
         return itemService.updateItem(itemId, itemDto, userId);
     }
 
@@ -43,7 +43,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<Item> getItems(@RequestHeader("X-Sharer-User-Id") int userId) throws UserNotFoundException {
+    public List<Item> getItems(@RequestHeader(userIdHeader) int userId) throws UserNotFoundException {
         return itemService.getItems(userId);
     }
 
