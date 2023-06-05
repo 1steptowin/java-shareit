@@ -5,14 +5,17 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exception.*;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.BadUserForItem;
-import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
 import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
 import ru.practicum.shareit.item.exceptions.TextIsBlank;
+import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.projection.CommentWithAuthorName;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
+import ru.practicum.shareit.item.repo.CommentRepo;
 import ru.practicum.shareit.item.repo.ItemRepo;
 import ru.practicum.shareit.request.repo.RequestRepo;
 import ru.practicum.shareit.user.repo.UserRepo;
@@ -33,15 +36,17 @@ public class ItemServiceImpl implements ItemService {
     private final UserService userService;
     private final RequestRepo requestRepo;
     private final UserRepo userRepo;
+    private final CommentRepo commentRepo;
     Function<LocalDateTime, Predicate<Booking>> nonFutureBookingsFunction = now ->
             b -> !b.getStart().isAfter(now);
 
     @Autowired
-    public ItemServiceImpl(ItemRepo itemRepo, UserService userService,RequestRepo requestRepo, UserRepo userRepo) {
+    public ItemServiceImpl(ItemRepo itemRepo, UserService userService,RequestRepo requestRepo, UserRepo userRepo, CommentRepo commentRepo) {
         this.itemRepo = itemRepo;
         this.userService = userService;
         this.requestRepo = requestRepo;
         this.userRepo = userRepo;
+        this.commentRepo = commentRepo;
     }
     private void checkIfUserIsOwner(int ownerId, int itemId) {
         if (!(itemRepo.findById(itemId).orElseThrow(() -> {
@@ -144,5 +149,23 @@ public class ItemServiceImpl implements ItemService {
                         text).stream()
                 .filter(Item::getAvailable)
                 .map(ItemMapper::toItemDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentWithAuthorName addComment(int userId, int itemId, CommentDto commentDto) {
+        LocalDateTime now = LocalDateTime.now();
+        checkIfCommentRelatedToCurrentBooking(userId, itemId, now);
+        Comment newComment = CommentMapper.mapDtoToModel(commentDto);
+        newComment.setItem(itemRepo.findById(itemId)
+                .orElseThrow(() -> {
+                    throw new ItemNotFoundException("Item does not exist");
+                }));
+        newComment.setAuthor(userRepo.findById(userId)
+                .orElseThrow(() -> {
+                    throw new UserNotFoundException("User does not exist");
+                }));
+        newComment.setCreated(now);
+        Comment addedComment = commentRepo.save(newComment);
+        return commentRepo.findWithAuthorName(addedComment.getId());
     }
 }

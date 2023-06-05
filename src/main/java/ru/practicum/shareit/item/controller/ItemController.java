@@ -2,6 +2,8 @@ package ru.practicum.shareit.item.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.projection.CommentWithAuthorName;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.exceptions.BadUserForItem;
@@ -51,5 +53,10 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> search(@RequestParam("text") String text) throws TextIsBlank {
         return itemService.search(text);
+    }
+    @PostMapping(value =  "{itemId}/comment")
+    public CommentWithAuthorName addComment(@RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId,
+                                            @RequestBody @Valid CommentDto commentDto) {
+        return itemService.addComment(userId, itemId, commentDto);
     }
 }
