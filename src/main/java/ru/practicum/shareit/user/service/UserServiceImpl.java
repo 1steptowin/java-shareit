@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User addUser(User user) throws UserNotFoundException {
-        if (user.getEmail()!=null) {return userRepo.save(user);}
-        else {throw new EmptyEmailException("Email is empty");}
+        if (user.getEmail() != null) return userRepo.save(user);
+        else throw new EmptyEmailException("Email is empty");
     }
 
     @Transactional

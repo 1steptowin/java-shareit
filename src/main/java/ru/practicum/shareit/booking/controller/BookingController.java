@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 public class BookingController {
     private final BookingService bookingService;
-    private static final String USER_HEADER = "X-Sharer-User-Id";
+    private static final String userIdHeader = "X-Sharer-User-Id";
     private static final String BOOKING_PATH = "/{bookingId}";
 
     @Autowired
@@ -27,25 +27,25 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingResponseDto addBooking(@RequestHeader(USER_HEADER) int userId,
+    public BookingResponseDto addBooking(@RequestHeader(userIdHeader) int userId,
                                          @RequestBody BookingRequestDto bookingRequestDto) {
         return bookingService.addBooking(userId, bookingRequestDto);
     }
 
     @PatchMapping(value = BOOKING_PATH)
-    public BookingResponseDto setBookingStatus(@RequestHeader(USER_HEADER) int userId,
+    public BookingResponseDto setBookingStatus(@RequestHeader(userIdHeader) int userId,
                                                @PathVariable("bookingId") Long id, @RequestParam Boolean approved) {
         return bookingService.setBookingStatus(userId, id, approved);
     }
 
     @GetMapping(BOOKING_PATH)
-    public BookingResponseDto getBookingById(@RequestHeader(USER_HEADER) int userId,
+    public BookingResponseDto getBookingById(@RequestHeader(userIdHeader) int userId,
                                              @PathVariable("bookingId") Long id) {
         return bookingService.getBookingById(userId, id);
     }
 
     @GetMapping
-    public List<BookingResponseDto> getAllBookingsOfBookerByState(@RequestHeader(USER_HEADER) int bookerId,
+    public List<BookingResponseDto> getAllBookingsOfBookerByState(@RequestHeader(userIdHeader) int bookerId,
                                                                   @RequestParam(defaultValue = "ALL", required = false) String state,
                                                                   @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
                                                                   @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
@@ -53,7 +53,7 @@ public class BookingController {
     }
 
     @GetMapping("/owner")
-    public List<BookingResponseDto> getAllBookingsOfOwnerByState(@RequestHeader(USER_HEADER) int ownerId,
+    public List<BookingResponseDto> getAllBookingsOfOwnerByState(@RequestHeader(userIdHeader) int ownerId,
                                                                  @RequestParam(defaultValue = "ALL", required = false) String state,
                                                                  @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
                                                                  @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
