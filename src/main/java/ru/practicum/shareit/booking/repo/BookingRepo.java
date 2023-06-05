@@ -12,7 +12,7 @@ import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.projection.BookingShort;
 
 @Repository
-public interface BookingRepo extends JpaRepository<Booking, Integer> {
+public interface BookingRepo extends JpaRepository<Booking, Long> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update Booking b set b.status = ?2 where b.id = ?1")

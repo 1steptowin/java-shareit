@@ -78,18 +78,18 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private void checkIfOwnerIsApproving(int userId, Long id) {
-        if (!(bookingRepo.findById(Math.toIntExact(id)).orElseThrow(bookingNotFoundSupplier).getItem().getOwner() == userId)) {
+        if (!(bookingRepo.findById(id).orElseThrow(bookingNotFoundSupplier).getItem().getOwner() == userId)) {
             throw new NonOwnerUpdatingException("Booking may be approved only by the owner");
         }
     }
 
     private void checkIfStatusUpdateIsBeforeApproval(long id) {
-        if (!bookingRepo.findById(Math.toIntExact(id)).orElseThrow(bookingNotFoundSupplier).getStatus().equals(BookingStatus.WAITING)) {
+        if (!bookingRepo.findById(id).orElseThrow(bookingNotFoundSupplier).getStatus().equals(BookingStatus.WAITING)) {
             throw new UpdateStatusAfterApprovalException("Booking status may not be changed after approval");
         }
     }
 
-    private void checkIfBookerOrOwnerIsRequesting(int userId, int id) {
+    private void checkIfBookerOrOwnerIsRequesting(int userId, Long id) {
         int ownerId = bookingRepo.findById(id)
                 .orElseThrow(bookingNotFoundSupplier)
                 .getItem().getOwner();
@@ -108,7 +108,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private void checkIfBookingExists(Long bookingId) {
-        if (bookingRepo.findById(Math.toIntExact(bookingId)).isEmpty()) {
+        if (bookingRepo.findById(bookingId).isEmpty()) {
             throw new BookingNotFoundException("Booking does not exist");
         }
     }
@@ -153,13 +153,13 @@ public class BookingServiceImpl implements BookingService {
         } else {
             bookingRepo.updateStatus(id, BookingStatus.REJECTED);
         }
-        Booking bookingUpdated = bookingRepo.findById(Math.toIntExact(id)).orElseThrow();
+        Booking bookingUpdated = bookingRepo.findById(id).orElseThrow();
         return BookingMapper.mapModelToDto(bookingUpdated);
     }
 
     @Override
     public BookingResponseDto getBookingById(int userId, Long id) {
-        checkIfBookerOrOwnerIsRequesting(userId, Math.toIntExact(id));
+        checkIfBookerOrOwnerIsRequesting(userId, id);
         checkIfBookingExists(id);
         return BookingMapper.mapProjectionToDto(bookingRepo.findBookingShortByBookingId(id));
     }
