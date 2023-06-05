@@ -48,6 +48,7 @@ public class ItemServiceImpl implements ItemService {
         this.userRepo = userRepo;
         this.commentRepo = commentRepo;
     }
+
     private void checkIfUserIsOwner(int ownerId, int itemId) {
         if (!(itemRepo.findById(itemId).orElseThrow(() -> {
                     throw new ItemNotFoundException("Item does not exist");
@@ -56,18 +57,20 @@ public class ItemServiceImpl implements ItemService {
             throw new NonOwnerUpdatingException("Item can be updated only by its owner");
         }
     }
+
     private void checkIfUserExists(int userId) {
         if (userRepo.findById(userId).isEmpty()) {
             throw new UserNotFoundException("User not found");
         }
     }
+
     private void checkIfCommentRelatedToCurrentBooking(int userId, int itemId, LocalDateTime now) {
         Item item = itemRepo.findById(itemId)
                 .orElseThrow(() -> {
                     throw new ItemNotFoundException("Item does not exist");
                 });
         List<Booking> usersBookingsOfItem = item.getBookings().stream()
-                .filter(b -> b.getBooker().getId()==(userId))
+                .filter(b -> b.getBooker().getId() == (userId))
                 .filter(b -> b.getStatus().equals(BookingStatus.APPROVED))
                 .filter(nonFutureBookingsFunction.apply(now))
                 .collect(Collectors.toList());
@@ -75,6 +78,7 @@ public class ItemServiceImpl implements ItemService {
             throw new IllegalCommentException("Illegal comment");
         }
     }
+
     @Transactional
     @Override
     public ItemDto addItem(ItemDto itemDto, int userId) {
@@ -107,7 +111,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = ItemMapper.toItem(itemDto);
         item.setId(itemID);
         item.setOwner(userId);
-        if (item.getAvailable()!=null) {
+        if (item.getAvailable() != null) {
             itemRepo.updateAvailable(item.getId(),item.getAvailable());
         }
         if (item.getDescription() != null) {

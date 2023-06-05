@@ -46,7 +46,9 @@ public class UserServiceImpl implements UserService {
             userRepo.updateUserName(user.getId(), user.getName());
         }
         if (user.getEmail() != null) {
-            if (!checkForDuplicate(user)){userRepo.updateUserEmail(user.getId(), user.getEmail());}
+            if (!checkForDuplicate(user)) {
+                userRepo.updateUserEmail(user.getId(), user.getEmail());
+            }
         }
 
         return userRepo.findById(user.getId())

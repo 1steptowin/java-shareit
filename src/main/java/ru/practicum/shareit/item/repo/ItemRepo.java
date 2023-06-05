@@ -32,8 +32,7 @@ public interface ItemRepo extends JpaRepository<Item, Integer>, ItemRepoCustomed
 
     List<Item> findAllByDescriptionContainingIgnoreCaseOrNameContainingIgnoreCase(String description, String name);
 
-    ItemWithLastAndNextBookingAndComments findItemWithLastAndNextBookingAndComments(int itemId, LocalDateTime now,
-                                                                                    boolean isOwner);
-    List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId,
-                                                                                         LocalDateTime now);
+    ItemWithLastAndNextBookingAndComments findItemWithLastAndNextBookingAndComments(int itemId, LocalDateTime now, boolean isOwner);
+
+    List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId, LocalDateTime now);
 }
