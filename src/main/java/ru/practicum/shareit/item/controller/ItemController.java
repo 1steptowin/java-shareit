@@ -54,6 +54,7 @@ public class ItemController {
     public List<ItemDto> search(@RequestParam("text") String text) throws TextIsBlank {
         return itemService.search(text);
     }
+
     @PostMapping(value = "{itemId}/comment")
     public CommentWithAuthorName addComment(@RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId,
                                             @RequestBody @Valid CommentDto commentDto) {
