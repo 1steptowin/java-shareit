@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +19,6 @@ import java.util.List;
 @Table(name="items", schema = "public")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
@@ -52,17 +52,11 @@ public class Item {
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     @JsonBackReference
     ItemRequest request;
-    public Item(String name, String description, Boolean available, ItemRequest request) {
-        this.name = name;
-        this.description = description;
-        this.available = available;
-        this.request = request;
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
-        return id!=0 && id == (((Item) o).getId());
+        return id != 0 && id == (((Item) o).getId());
     }
 
     @Override

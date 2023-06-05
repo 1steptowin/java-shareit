@@ -15,18 +15,18 @@ import java.util.List;
 public interface ItemRepo extends JpaRepository<Item, Integer>, ItemRepoCustomed {
     List<Item> findAllByOwner(int ownerId);
 
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Modifying
     @Query("update Item i set i.available = ?2 where i.id = ?1")
     void updateAvailable(int id, Boolean available);
 
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Modifying
     @Query("update Item i set i.description = ?2 where i.id = ?1")
     void updateDescription(int id, String description);
 
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Modifying
     @Query("update Item i set i.name = ?2 where i.id = ?1")
     void updateName(int id, String name);
 
