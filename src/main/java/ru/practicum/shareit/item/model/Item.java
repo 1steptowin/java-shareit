@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.request.model.ItemRequest;
@@ -16,7 +14,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="items", schema = "public")
+@Table(name = "items", schema = "public")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonIdentityInfo(
@@ -52,6 +50,7 @@ public class Item {
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     @JsonBackReference
     ItemRequest request;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

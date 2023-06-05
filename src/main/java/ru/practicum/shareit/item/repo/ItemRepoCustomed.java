@@ -3,9 +3,12 @@ import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComment
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 public interface ItemRepoCustomed {
+
     ItemWithLastAndNextBookingAndComments findItemWithLastAndNextBookingAndComments(int itemId, LocalDateTime now,
                                                                                     boolean isOwner);
+
     List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId,
                                                                                          LocalDateTime now);
 }

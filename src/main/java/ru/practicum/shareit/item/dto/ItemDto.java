@@ -4,8 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.request.model.ItemRequest;
 
-import javax.validation.constraints.NotBlank;
-
 
 @Data
 @Builder
