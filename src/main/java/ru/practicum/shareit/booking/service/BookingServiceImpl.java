@@ -64,7 +64,7 @@ public class BookingServiceImpl implements BookingService {
 
     private void checkIfItemIsAvailable(int itemId) {
         if (!itemRepo.findById(itemId).orElseThrow(bookingNotFoundSupplier).getAvailable()) {
-            throw new ItemUnavailableException("Item " + itemId +" is not available");
+            throw new ItemUnavailableException("Item " + itemId + " is not available");
         }
     }
 
@@ -103,13 +103,13 @@ public class BookingServiceImpl implements BookingService {
 
     private void checkIfOwnerExists(int ownerId) {
         if (userRepo.findById(ownerId).isEmpty()) {
-            throw new UserNotFoundException("User "+ ownerId +" does not exist");
+            throw new UserNotFoundException("User " + ownerId + " does not exist");
         }
     }
 
     private void checkIfBookingExists(Long bookingId) {
         if (bookingRepo.findById(bookingId).isEmpty()) {
-            throw new BookingNotFoundException("Booking "+ bookingId +" does not exist");
+            throw new BookingNotFoundException("Booking " + bookingId + " does not exist");
         }
     }
 
