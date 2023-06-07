@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
 
     private void checkIfUserIsOwner(int ownerId, int itemId) {
         if (!(itemRepo.findById(itemId).orElseThrow(() -> {
-                    throw new ItemNotFoundException("Item does not exist");
+                    throw new ItemNotFoundException("Item "+itemId+" does not exist");
                 })
                 .getOwner() == ownerId)) {
             throw new NonOwnerUpdatingException("Item can be updated only by its owner");
@@ -59,14 +59,14 @@ public class ItemServiceImpl implements ItemService {
 
     private void checkIfUserExists(int userId) {
         if (userRepo.findById(userId).isEmpty()) {
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("User "+userId+" not found");
         }
     }
 
     private void checkIfCommentRelatedToCurrentBooking(int userId, int itemId, LocalDateTime now) {
         Item item = itemRepo.findById(itemId)
                 .orElseThrow(() -> {
-                    throw new ItemNotFoundException("Item does not exist");
+                    throw new ItemNotFoundException("Item "+itemId+" does not exist");
                 });
         List<Booking> usersBookingsOfItem = item.getBookings().stream()
                 .filter(b -> b.getBooker().getId() == (userId))
@@ -120,7 +120,7 @@ public class ItemServiceImpl implements ItemService {
             itemRepo.updateName(item.getId(), item.getName());
         }
             return ItemMapper.toItemDto(itemRepo.findById(item.getId()).orElseThrow(() -> {
-                throw new ItemNotFoundException("Item not found");
+                throw new ItemNotFoundException("Item "+itemID+" not found");
             }));
         }
 
@@ -161,11 +161,11 @@ public class ItemServiceImpl implements ItemService {
         Comment newComment = CommentMapper.mapDtoToModel(commentDto);
         newComment.setItem(itemRepo.findById(itemId)
                 .orElseThrow(() -> {
-                    throw new ItemNotFoundException("Item does not exist");
+                    throw new ItemNotFoundException("Item "+itemId+" does not exist");
                 }));
         newComment.setAuthor(userRepo.findById(userId)
                 .orElseThrow(() -> {
-                    throw new UserNotFoundException("User does not exist");
+                    throw new UserNotFoundException("User "+userId+" does not exist");
                 }));
         newComment.setCreated(now);
         Comment addedComment = commentRepo.save(newComment);
