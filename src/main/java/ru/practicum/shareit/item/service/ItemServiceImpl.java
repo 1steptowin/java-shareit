@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item.service;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
@@ -8,7 +10,6 @@ import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
-import ru.practicum.shareit.item.exceptions.TextIsBlank;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
@@ -19,7 +20,6 @@ import ru.practicum.shareit.item.repo.CommentRepo;
 import ru.practicum.shareit.item.repo.ItemRepo;
 import ru.practicum.shareit.request.repo.RequestRepo;
 import ru.practicum.shareit.user.repo.UserRepo;
-import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.exceptions.UserNotFoundException;
 
 import javax.transaction.Transactional;
@@ -31,19 +31,18 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ItemServiceImpl implements ItemService {
-    private final ItemRepo itemRepo;
-    private final UserService userService;
-    private final RequestRepo requestRepo;
-    private final UserRepo userRepo;
-    private final CommentRepo commentRepo;
+    ItemRepo itemRepo;
+    RequestRepo requestRepo;
+    UserRepo userRepo;
+    CommentRepo commentRepo;
     Function<LocalDateTime, Predicate<Booking>> nonFutureBookingsFunction = now ->
             b -> !b.getStart().isAfter(now);
 
     @Autowired
-    public ItemServiceImpl(ItemRepo itemRepo, UserService userService,RequestRepo requestRepo, UserRepo userRepo, CommentRepo commentRepo) {
+    public ItemServiceImpl(ItemRepo itemRepo, RequestRepo requestRepo, UserRepo userRepo, CommentRepo commentRepo) {
         this.itemRepo = itemRepo;
-        this.userService = userService;
         this.requestRepo = requestRepo;
         this.userRepo = userRepo;
         this.commentRepo = commentRepo;
@@ -145,7 +144,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> search(String text) throws TextIsBlank {
+    public List<ItemDto> search(String text) {
         if (text.isBlank()) {
             return new ArrayList<>();
         }
