@@ -34,14 +34,14 @@ public class RequestServiceImpl implements RequestService {
     private void checkIfUserExists(int userId) {
         userRepo.findById(userId)
                 .orElseThrow(() -> {
-                    throw new UserNotFoundException("User "+userId+" does not exist");
+                    throw new UserNotFoundException("User " + userId + " does not exist");
                 });
     }
 
     private void checkIfRequestExists(Long requestId) {
         requestRepo.findById(requestId)
                 .orElseThrow(() -> {
-                    throw new RequestNotFoundException("Request "+requestId+" does not exist");
+                    throw new RequestNotFoundException("Request " + requestId + " does not exist");
                 });
     }
 
@@ -53,7 +53,7 @@ public class RequestServiceImpl implements RequestService {
         newRequest.setCreated(now);
         newRequest.setUser(userRepo.findById(userId)
                 .orElseThrow(() -> {
-                    throw new UserNotFoundException("User "+userId+" does not exist");
+                    throw new UserNotFoundException("User " + userId + " does not exist");
                 }));
         ItemRequest addedRequest = requestRepo.save(newRequest);
         return ItemRequestMapper.mapModelToDto(addedRequest);

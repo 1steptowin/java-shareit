@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Integer userId) {
         return userRepo.findById(userId)
                 .orElseThrow(() -> {
-                    throw new UserNotFoundException("User "+userId+" does not exist");
+                    throw new UserNotFoundException("User " + userId + " does not exist");
                 });
     }
 
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepo.findById(user.getId())
                 .orElseThrow(() -> {
-            throw new UserNotFoundException("User "+user.getId()+" does not exists");
+            throw new UserNotFoundException("User " + user.getId() + " does not exists");
         });
     }
 
@@ -68,14 +68,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void checkUser(int userId) {
         if (userRepo.findById(userId).isEmpty()) {
-            throw new UserNotFoundException("User "+userId+" not found");
+            throw new UserNotFoundException("User " + userId + " not found");
         }
     }
 
     private boolean checkForDuplicate(User user) {
         return userRepo.findById(user.getId())
                 .orElseThrow(() -> {
-                    throw new UserNotFoundException("User "+user.getId()+" does not exist");
+                    throw new UserNotFoundException("User " + user.getId() + " does not exist");
                 }).getEmail().equals(user.getEmail());
     }
 }
