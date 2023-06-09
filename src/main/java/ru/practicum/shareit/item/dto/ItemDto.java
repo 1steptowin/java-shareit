@@ -2,22 +2,17 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.request.model.ItemRequest;
 
-import javax.validation.constraints.NotBlank;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class ItemDto {
-    @NotBlank
+    int id;
     String name;
-    @NotBlank
     String description;
     Boolean available;
-    Integer request;
-
+    ItemRequest request;
 }

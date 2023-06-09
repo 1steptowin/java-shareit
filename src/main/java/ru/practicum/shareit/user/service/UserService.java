@@ -1,5 +1,6 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.service;
 
+import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.exceptions.UserNotFoundException;
 
@@ -16,5 +17,5 @@ public interface UserService {
 
     void deleteUserById(Integer userId) throws UserNotFoundException;
 
-    boolean checkUser(int userId);
+    void checkUser(int userId);
 }
