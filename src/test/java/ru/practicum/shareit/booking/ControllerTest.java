@@ -18,7 +18,6 @@ import ru.practicum.shareit.booking.dto.BookingRequestDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.exception.WrongStatusException;
 import ru.practicum.shareit.item.projection.ItemShort;
 import ru.practicum.shareit.user.projection.UserShort;
 
@@ -61,6 +60,7 @@ public class ControllerTest {
         bookingRequestDto.setStart(start);
         bookingRequestDto.setEnd(end);
     }
+
     void setBookingResponse() {
         bookingResponseDto = BookingResponseDto.builder()
                 .id(1L)

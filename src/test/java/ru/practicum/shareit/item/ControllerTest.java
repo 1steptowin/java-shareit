@@ -45,7 +45,7 @@ public class ControllerTest {
     ItemService itemService;
     @Autowired
     MockMvc mvc;
-    final static String userIdHeader = "X-Sharer-User-Id";
+    final String userIdHeader = "X-Sharer-User-Id";
     ItemDto item;
     CommentWithAuthorName comment;
     ItemWithLastAndNextBookingAndComments itemWithInfo;

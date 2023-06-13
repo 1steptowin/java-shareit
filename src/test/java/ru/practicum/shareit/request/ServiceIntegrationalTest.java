@@ -41,6 +41,7 @@ public class ServiceIntegrationalTest {
     User addedRequester;
     User addedOwner;
     ItemRequestDto addedRequest;
+
     private User setUser(String name, String email) {
         User user = new User();
         user.setName(name);

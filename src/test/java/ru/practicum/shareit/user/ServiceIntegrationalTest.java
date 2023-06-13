@@ -30,6 +30,7 @@ public class ServiceIntegrationalTest {
     @Autowired
     UserService userService;
     User addedUser;
+
     private User setUser(String name, String email) {
         User user = new User();
         user.setName(name);

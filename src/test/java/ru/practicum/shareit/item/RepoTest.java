@@ -26,6 +26,7 @@ public class RepoTest {
     @Autowired
     RequestRepo requestRepo;
     Item item;
+
     private User setUser() {
         User user = new User();
         user.setName("Test user");
