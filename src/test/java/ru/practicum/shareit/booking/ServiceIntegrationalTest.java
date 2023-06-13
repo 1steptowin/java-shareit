@@ -24,7 +24,6 @@ import ru.practicum.shareit.item.exceptions.BadUserForItem;
 import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
-import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.exceptions.UserDuplicateException;
@@ -79,7 +78,7 @@ public class ServiceIntegrationalTest {
                 .name("Item name")
                 .description("Item description")
                 .available(true)
-                .request(itemRequest)
+                .requestId(itemRequest.getId())
                 .build();
     }
 

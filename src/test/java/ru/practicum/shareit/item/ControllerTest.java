@@ -59,7 +59,7 @@ public class ControllerTest {
                 .name("New item")
                 .description("Item description")
                 .available(true)
-                .request(itemRequest)
+                .requestId(itemRequest.getId())
                 .build();
     }
 
@@ -97,7 +97,7 @@ public class ControllerTest {
                 .andExpect(jsonPath("$.name", is(item.getName())))
                 .andExpect(jsonPath("$.description", is(item.getDescription())))
                 .andExpect(jsonPath("$.available", is(item.getAvailable())))
-                .andExpect(jsonPath("$.request.id", is(item.getRequest().getId().intValue())));
+                .andExpect(jsonPath("$.requestId", is(item.getRequestId().intValue())));
     }
 
     @Test
@@ -144,7 +144,7 @@ public class ControllerTest {
                 .andExpect(jsonPath("$.name", is(item.getName())))
                 .andExpect(jsonPath("$.description", is(item.getDescription())))
                 .andExpect(jsonPath("$.available", is(item.getAvailable())))
-                .andExpect(jsonPath("$.request.id", is(item.getRequest().getId().intValue())));
+                .andExpect(jsonPath("$.requestId", is(item.getRequestId().intValue())));
     }
 
     @Test
@@ -209,6 +209,6 @@ public class ControllerTest {
                 .andExpect(jsonPath("$[0].name", is(item.getName())))
                 .andExpect(jsonPath("$[0].description", is(item.getDescription())))
                 .andExpect(jsonPath("$[0].available", is(item.getAvailable())))
-                .andExpect(jsonPath("$[0].request.id", is(item.getRequest().getId().intValue())));
+                .andExpect(jsonPath("$[0].requestId", is(item.getRequestId().intValue())));
     }
 }

@@ -165,7 +165,7 @@ public class ServiceIntegrationalTest {
                 .name("Item name")
                 .description("Item description")
                 .available(true)
-                .request(itemRequest)
+                .requestId(itemRequest.getId())
                 .build();
     }
 

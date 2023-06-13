@@ -10,7 +10,7 @@ public class ItemMapper {
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getRequest() == null ? null : item.getRequest()
+                item.getRequest() == null ? null : item.getRequest().getId()
         );
     }
 
