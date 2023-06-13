@@ -49,7 +49,32 @@ public class ControllerTest {
     ItemDto item;
     CommentWithAuthorName comment;
     ItemWithLastAndNextBookingAndComments itemWithInfo;
-    LocalDateTime testNow = LocalDateTime.now();
+    final LocalDateTime testNow = LocalDateTime.now();
+
+    private ItemDto setItemDto() {
+        ItemRequest itemRequest = new ItemRequest();
+        itemRequest.setId(1L);
+        return ItemDto.builder()
+                .id(1)
+                .name("New item")
+                .description("Item description")
+                .available(true)
+                .request(itemRequest)
+                .build();
+    }
+
+    private ItemWithLastAndNextBookingAndComments setItemFull() {
+        return ItemWithLastAndNextBookingAndComments.builder()
+                .id(1)
+                .owner(1)
+                .name("New item")
+                .description("Item description")
+                .available(true)
+                .nextBooking(new BookingShortForItem(1L, 1))
+                .lastBooking(new BookingShortForItem(2L, 1))
+                .comments(List.of(comment))
+                .build();
+    }
 
     @BeforeEach
     void setUp() {
@@ -78,9 +103,9 @@ public class ControllerTest {
     @Test
     void testAddItemEmptyAvailabilityFail() throws Exception {
         Mockito.when(itemService.addItem(Mockito.any(), Mockito.anyInt()))
-                .thenThrow(new EmptyItemAvailabilityException("Empty availability"));
+                .thenThrow(new EmptyItemAvailabilityException("Empty available"));
         mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", "1")
+                        .header(userIdHeader, "1")
                         .content(mapper.writeValueAsString(item))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -93,7 +118,7 @@ public class ControllerTest {
     void testAddComment() throws Exception {
         Mockito.when(itemService.addComment(Mockito.anyInt(), Mockito.anyInt(), Mockito.any())).thenReturn(comment);
         mvc.perform(post("/items/1/comment")
-                        .header("X-Sharer-User-Id", "1")
+                        .header(userIdHeader, "1")
                         .content(mapper.writeValueAsString(comment))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -109,7 +134,7 @@ public class ControllerTest {
         item.setDescription("Updated description");
         Mockito.when(itemService.updateItem(Mockito.anyInt(), Mockito.any(), Mockito.anyInt())).thenReturn(item);
         mvc.perform(patch("/items/1")
-                        .header("X-Sharer-User-Id", "1")
+                        .header(userIdHeader, "1")
                         .content(mapper.writeValueAsString(item))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +151,7 @@ public class ControllerTest {
     void testGetItemById() throws Exception {
         Mockito.when(itemService.getItem(Mockito.anyInt(), Mockito.anyInt())).thenReturn(itemWithInfo);
         mvc.perform(get("/items/1")
-                        .header("X-Sharer-User-Id", "1"))
+                        .header(userIdHeader, "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(itemWithInfo.getId()), Integer.class))
                 .andExpect(jsonPath("$.name", is(itemWithInfo.getName())))
@@ -147,7 +172,7 @@ public class ControllerTest {
         Mockito.when(itemService.getItem(Mockito.anyInt(), Mockito.anyInt()))
                 .thenThrow(new ItemNotFoundException("Item not found"));
         mvc.perform(get("/items/1")
-                        .header("X-Sharer-User-Id", "1"))
+                        .header(userIdHeader, "1"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error", notNullValue()));
     }
@@ -156,7 +181,7 @@ public class ControllerTest {
     void testGetOwnersItems() throws Exception {
         Mockito.when(itemService.getItems(Mockito.anyInt())).thenReturn(List.of(itemWithInfo));
         mvc.perform(get("/items")
-                        .header("X-Sharer-User-Id", "1"))
+                        .header(userIdHeader, "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(itemWithInfo.getId()), Integer.class))
@@ -185,30 +210,5 @@ public class ControllerTest {
                 .andExpect(jsonPath("$[0].description", is(item.getDescription())))
                 .andExpect(jsonPath("$[0].available", is(item.getAvailable())))
                 .andExpect(jsonPath("$[0].request.id", is(item.getRequest().getId().intValue())));
-    }
-
-    private ItemDto setItemDto() {
-        ItemRequest itemRequest = new ItemRequest();
-        itemRequest.setId(1L);
-        return ItemDto.builder()
-                .id(1)
-                .name("New item")
-                .description("Item description")
-                .available(true)
-                .request(itemRequest)
-                .build();
-    }
-
-    private ItemWithLastAndNextBookingAndComments setItemFull() {
-        return ItemWithLastAndNextBookingAndComments.builder()
-                .id(1)
-                .owner(1)
-                .name("New item")
-                .description("Item description")
-                .available(true)
-                .nextBooking(new BookingShortForItem(1L, 1))
-                .lastBooking(new BookingShortForItem(2L, 1))
-                .comments(List.of(comment))
-                .build();
     }
 }
