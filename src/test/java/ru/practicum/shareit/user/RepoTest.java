@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repo.UserRepo;
 
 @DataJpaTest
@@ -38,6 +39,7 @@ public class RepoTest {
     void testPersistingUser() {
         Assertions.assertNotNull(user.getId());
     }
+
     @Test
     void testUpdateUserEmail() {
         userRepo.updateUserEmail(user.getId(), "update@mail.com");

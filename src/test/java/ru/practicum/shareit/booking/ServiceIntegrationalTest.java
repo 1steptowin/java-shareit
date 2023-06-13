@@ -28,7 +28,7 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.service.UserService;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.exception.WrongDateException;
 
 import java.time.LocalDateTime;

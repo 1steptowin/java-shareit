@@ -2,7 +2,7 @@ package ru.practicum.shareit.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.exceptions.UserNotFoundException;

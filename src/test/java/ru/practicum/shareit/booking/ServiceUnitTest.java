@@ -19,7 +19,7 @@ import ru.practicum.shareit.booking.repo.BookingRepo;
 import ru.practicum.shareit.booking.service.BookingServiceImpl;
 import ru.practicum.shareit.exception.WrongStatusException;
 import ru.practicum.shareit.item.projection.ItemShort;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.projection.UserShort;
 import ru.practicum.shareit.user.repo.UserRepo;
 
