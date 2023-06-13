@@ -16,9 +16,9 @@ import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.projection.BookingShort;
 import ru.practicum.shareit.booking.repo.BookingRepo;
 import ru.practicum.shareit.exception.*;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.repo.ItemRepo;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.user.repo.UserRepo;
 
 import java.time.LocalDateTime;

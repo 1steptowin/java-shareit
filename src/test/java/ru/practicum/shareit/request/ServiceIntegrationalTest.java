@@ -13,13 +13,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.practicum.shareit.exception.RequestNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.exceptions.UserDuplicateException;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.user.service.UserService;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -65,7 +63,7 @@ public class ServiceIntegrationalTest {
     }
 
     @BeforeEach
-    void setUp() throws UserDuplicateException, InvalidItemAvailable {
+    void setUp() {
         addedRequester = userService.addUser(setUser("Requester", "requester@mail.com"));
         addedRequest = requestService.addItemRequest(addedRequester.getId(), setRequest());
         addedOwner = userService.addUser(setUser("Owner", "owner@mail.com"));

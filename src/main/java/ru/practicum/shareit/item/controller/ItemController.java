@@ -6,11 +6,8 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.projection.CommentWithAuthorName;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.BadUserForItem;
-import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
-import ru.practicum.shareit.item.exceptions.TextIsBlank;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,12 +28,12 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(userIdHeader) int userId) throws UserNotFoundException, InvalidItemAvailable {
+    public ItemDto addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(userIdHeader) int userId) throws UserNotFoundException {
         return itemService.addItem(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestBody ItemDto itemDto, @RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId) throws BadUserForItem {
+    public ItemDto updateItem(@RequestBody ItemDto itemDto, @RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId) {
         return itemService.updateItem(itemId, itemDto, userId);
     }
 
@@ -51,7 +48,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestParam("text") String text) throws TextIsBlank {
+    public List<ItemDto> search(@RequestParam("text") String text) {
         return itemService.search(text);
     }
 

@@ -1,8 +1,7 @@
 package ru.practicum.shareit.user.service;
 
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.exceptions.UserDuplicateException;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 
 import java.util.List;
 
@@ -11,11 +10,9 @@ public interface UserService {
 
     User getUserById(Integer userId) throws UserNotFoundException;
 
-    User addUser(User user) throws UserDuplicateException, UserNotFoundException;
+    User addUser(User user) throws UserNotFoundException;
 
-    User updateUser(User user) throws UserNotFoundException, UserDuplicateException;
+    User updateUser(User user) throws UserNotFoundException;
 
     void deleteUserById(Integer userId) throws UserNotFoundException;
-
-    void checkUser(int userId);
 }

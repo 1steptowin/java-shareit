@@ -17,10 +17,7 @@ import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.BadUserForItem;
-import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
-import ru.practicum.shareit.item.exceptions.TextIsBlank;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -28,7 +25,6 @@ import ru.practicum.shareit.request.mapper.ItemRequestMapper;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.time.LocalDateTime;
@@ -61,7 +57,7 @@ public class ServiceIntegrationalTest {
     ItemRequestDto addedRequest;
 
     @BeforeEach
-    void setUp() throws UserDuplicateException, InvalidItemAvailable {
+    void setUp() {
         User owner = setUser("Owner", "owner@mail.com");
         addedOwner = userService.addUser(owner);
         User booker = setUser("Booker", "booker@mail.com");
@@ -92,7 +88,7 @@ public class ServiceIntegrationalTest {
     }
 
     @Test
-    void testUpdateItem() throws BadUserForItem {
+    void testUpdateItem() {
         ItemDto updatedItem = addedItem;
         updatedItem.setAvailable(false);
         updatedItem.setName("Updated");
@@ -106,12 +102,12 @@ public class ServiceIntegrationalTest {
     }
 
     @Test
-    void testSearch() throws TextIsBlank {
+    void testSearch() {
         assertThat(itemService.search("Item"), hasSize(1));
     }
 
     @Test
-    void testSearchEmpty() throws TextIsBlank {
+    void testSearchEmpty() {
         assertThat(itemService.search(""), hasSize(0));
     }
 

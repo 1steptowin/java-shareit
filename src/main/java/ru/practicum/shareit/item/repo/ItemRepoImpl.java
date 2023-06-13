@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Lazy;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.projection.BookingShortForItem;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.projection.CommentWithAuthorName;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;

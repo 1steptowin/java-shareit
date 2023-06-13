@@ -13,10 +13,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.practicum.shareit.exception.EmptyEmailException;
-import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -40,7 +39,7 @@ public class ServiceIntegrationalTest {
     }
 
     @BeforeEach
-    void setUp() throws UserDuplicateException {
+    void setUp() {
         addedUser = userService.addUser(setUser("user", "user@mail.com"));
     }
 
@@ -58,7 +57,7 @@ public class ServiceIntegrationalTest {
     }
 
     @Test
-    void testUpdateUser() throws UserDuplicateException {
+    void testUpdateUser() {
         User newUser = setUser("updated", "update@mail.com");
         newUser.setId(1);
         User updatedUser = userService.updateUser(newUser);
@@ -67,7 +66,7 @@ public class ServiceIntegrationalTest {
     }
 
     @Test
-    void testUpdateUserWithSameEmail() throws UserDuplicateException {
+    void testUpdateUserWithSameEmail() {
         User newUser = setUser("user", "user@mail.com");
         newUser.setId(1);
         User updatedUser = userService.updateUser(newUser);

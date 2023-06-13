@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.booking.projection.BookingShortForItem;
 import ru.practicum.shareit.exception.EmptyItemAvailabilityException;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.projection.CommentWithAuthorName;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
 import ru.practicum.shareit.item.service.ItemService;

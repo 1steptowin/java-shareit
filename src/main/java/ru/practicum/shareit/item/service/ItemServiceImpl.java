@@ -9,7 +9,7 @@ import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
@@ -20,7 +20,7 @@ import ru.practicum.shareit.item.repo.CommentRepo;
 import ru.practicum.shareit.item.repo.ItemRepo;
 import ru.practicum.shareit.request.repo.RequestRepo;
 import ru.practicum.shareit.user.repo.UserRepo;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;

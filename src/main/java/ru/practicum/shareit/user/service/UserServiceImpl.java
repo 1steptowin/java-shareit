@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.EmptyEmailException;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.user.repo.UserRepo;
 
 import java.util.List;
@@ -63,13 +63,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Integer userId) throws UserNotFoundException {
         userRepo.deleteById(userId);
-    }
-
-    @Override
-    public void checkUser(int userId) {
-        if (userRepo.findById(userId).isEmpty()) {
-            throw new UserNotFoundException("User " + userId + " not found");
-        }
     }
 
     private boolean checkForDuplicate(User user) {
