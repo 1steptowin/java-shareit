@@ -18,6 +18,7 @@ import ru.practicum.shareit.booking.dto.BookingRequestDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.exception.WrongStatusException;
 import ru.practicum.shareit.item.projection.ItemShort;
 import ru.practicum.shareit.user.projection.UserShort;
 
@@ -153,4 +154,16 @@ public class ControllerTest {
                 .andExpect(jsonPath("$[0].item.name", is(bookingResponseDto.getItem().getName())));
     }
 
+    @Test
+    void testGetAllBookingsWrongStatus() throws Exception {
+        Mockito.when(bookingService.getAllBookingsOfBookerByState(Mockito.anyInt(), Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyInt())).thenThrow(new WrongStatusException("Wrong status"));
+        mvc.perform(get("/bookings")
+                        .header(userIdHeader, "1")
+                        .param("state", "WRONG")
+                        .param("from", "0")
+                        .param("size", "10"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.error", equalTo("Wrong status")));
+    }
 }

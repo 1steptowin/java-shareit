@@ -8,12 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.practicum.shareit.user.repo.UserRepo;
 
 @DataJpaTest
 @AutoConfigureTestDatabase
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RepoTest {
+    @Autowired
+    TestEntityManager tem;
     @Autowired
     UserRepo userRepo;
     User user;
@@ -26,6 +29,15 @@ public class RepoTest {
         userRepo.save(user);
     }
 
+    @Test
+    public void contextLoads() {
+        Assertions.assertNotNull(tem);
+    }
+
+    @Test
+    void testPersistingUser() {
+        Assertions.assertNotNull(user.getId());
+    }
     @Test
     void testUpdateUserEmail() {
         userRepo.updateUserEmail(user.getId(), "update@mail.com");

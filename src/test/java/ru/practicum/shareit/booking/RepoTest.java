@@ -104,6 +104,11 @@ public class RepoTest {
     }
 
     @Test
+    void contextLoads() {
+        Assertions.assertNotNull(tem);
+    }
+
+    @Test
     void testFindBookingShortByBookingId() {
         BookingShort bookingShort = bookingRepo.findBookingShortByBookingId(booking.getId());
         Assertions.assertEquals(booking.getId(), bookingShort.getId());

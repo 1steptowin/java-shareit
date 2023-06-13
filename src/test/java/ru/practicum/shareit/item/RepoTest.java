@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repo.ItemRepo;
 import ru.practicum.shareit.request.model.ItemRequest;
@@ -19,6 +20,8 @@ import ru.practicum.shareit.user.repo.UserRepo;
 @AutoConfigureTestDatabase
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RepoTest {
+    @Autowired
+    TestEntityManager tem;
     @Autowired
     ItemRepo itemRepo;
     @Autowired
@@ -62,6 +65,15 @@ public class RepoTest {
         itemRepo.save(item);
     }
 
+    @Test
+    void contextLoads() {
+        Assertions.assertNotNull(tem);
+    }
+
+    @Test
+    void testPersistingItem() {
+        Assertions.assertNotNull(item.getId());
+    }
     @Test
     void testUpdateAvailable() {
         item.setAvailable(false);
