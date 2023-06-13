@@ -20,13 +20,10 @@ import ru.practicum.shareit.exception.BookingNotFoundException;
 import ru.practicum.shareit.exception.ItemUnavailableException;
 import ru.practicum.shareit.exception.UpdateStatusAfterApprovalException;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.BadUserForItem;
-import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.service.RequestService;
-import ru.practicum.shareit.user.exceptions.UserDuplicateException;
 import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.exception.WrongDateException;
@@ -93,7 +90,7 @@ public class ServiceIntegrationalTest {
     }
 
     @BeforeEach
-    void setUp() throws UserDuplicateException, InvalidItemAvailable {
+    void setUp() {
         User owner = setUser("Test owner", "owner@mail.com");
         ownerTest = userService.addUser(owner);
         User booker = setUser("Test booker", "booker@mail.com");
@@ -139,7 +136,7 @@ public class ServiceIntegrationalTest {
     }
 
     @Test
-    void testAddBookingUnavailableItemFailed() throws BadUserForItem {
+    void testAddBookingUnavailableItemFailed() {
         ItemDto itemDto = itemDtoTest;
         itemDto.setAvailable(false);
         itemService.updateItem(ownerTest.getId(), itemDto, ownerTest.getId());
