@@ -179,7 +179,7 @@ public class ControllerTest {
 
     @Test
     void testGetOwnersItems() throws Exception {
-        Mockito.when(itemService.getItems(Mockito.anyInt())).thenReturn(List.of(itemWithInfo));
+        Mockito.when(itemService.getItems(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyInt())).thenReturn(List.of(itemWithInfo));
         mvc.perform(get("/items")
                         .header(userIdHeader, "1"))
                 .andExpect(status().isOk())
@@ -200,7 +200,7 @@ public class ControllerTest {
 
     @Test
     void testSearchItems() throws Exception {
-        Mockito.when(itemService.search(Mockito.anyString())).thenReturn(List.of(item));
+        Mockito.when(itemService.search(Mockito.anyString(), Mockito.anyInt(),Mockito.anyInt())).thenReturn(List.of(item));
         mvc.perform(get("/items/search")
                         .param("text", "item"))
                 .andExpect(status().isOk())

@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.repo;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.projection.BookingShortForItem;
@@ -56,7 +57,7 @@ public class ItemRepoImpl implements ItemRepoCustomed {
     }
 
     @Override
-    public List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int owner, LocalDateTime now) {
+    public List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int owner, LocalDateTime now, Pageable page) {
         List<Item> ownersItems = itemRepo.findAllByOwner(owner);
         return ownersItems.stream().map(item -> findItemWithLastAndNextBookingAndComments(item.getId(), now, true))
                 .collect(Collectors.toList());

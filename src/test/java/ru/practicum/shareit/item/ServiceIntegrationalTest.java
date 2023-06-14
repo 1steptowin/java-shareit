@@ -103,12 +103,12 @@ public class ServiceIntegrationalTest {
 
     @Test
     void testSearch() {
-        assertThat(itemService.search("Item"), hasSize(1));
+        assertThat(itemService.search("Item",0,10), hasSize(1));
     }
 
     @Test
     void testSearchEmpty() {
-        assertThat(itemService.search(""), hasSize(0));
+        assertThat(itemService.search("", 0, 10), hasSize(0));
     }
 
     @Test
@@ -133,7 +133,7 @@ public class ServiceIntegrationalTest {
         assertThat(itemFull.getNextBooking().getBookerId(), equalTo(approvedBooking.getBooker().getId()));
         assertNull(itemFull.getLastBooking());
         assertThat(itemFull.getComments(), hasSize(0));
-        List<ItemWithLastAndNextBookingAndComments> itemFullAll = itemService.getItems(addedOwner.getId());
+        List<ItemWithLastAndNextBookingAndComments> itemFullAll = itemService.getItems(addedOwner.getId(),0,10);
         assertThat(itemFullAll, hasSize(1));
         assertThat(itemFullAll.get(0).getNextBooking().getId(), equalTo(approvedBooking.getId()));
         assertThat(itemFullAll.get(0).getNextBooking().getBookerId(), equalTo(approvedBooking.getBooker().getId()));

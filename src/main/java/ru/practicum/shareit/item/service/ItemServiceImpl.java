@@ -3,6 +3,8 @@ package ru.practicum.shareit.item.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
@@ -138,18 +140,20 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemWithLastAndNextBookingAndComments> getItems(int userId) throws UserNotFoundException {
+    public List<ItemWithLastAndNextBookingAndComments> getItems(int userId, int from, int size) throws UserNotFoundException {
         LocalDateTime now = LocalDateTime.now();
-        return itemRepo.findAllWithLastAndNextBookingAndComments(userId, now);
+        Pageable request = PageRequest.of(from > 0 ? from / size : 0, size);
+        return itemRepo.findAllWithLastAndNextBookingAndComments(userId, now, request);
     }
 
     @Override
-    public List<ItemDto> search(String text) {
+    public List<ItemDto> search(String text, int from, int size) {
         if (text.isBlank()) {
             return new ArrayList<>();
         }
+        Pageable request = PageRequest.of(from > 0 ? from / size : 0, size);
         return itemRepo.findAllByDescriptionContainingIgnoreCaseOrNameContainingIgnoreCase(text,
-                        text).stream()
+                        text, request).stream()
                 .filter(Item::getAvailable)
                 .map(ItemMapper::toItemDto).collect(Collectors.toList());
     }

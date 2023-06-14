@@ -16,9 +16,9 @@ public interface ItemService {
 
     ItemWithLastAndNextBookingAndComments getItem(int userdId, int itemId);
 
-    List<ItemWithLastAndNextBookingAndComments> getItems(int userId) throws UserNotFoundException;
+    List<ItemWithLastAndNextBookingAndComments> getItems(int userId, int from, int size) throws UserNotFoundException;
 
-    List<ItemDto> search(String text);
+    List<ItemDto> search(String text, int from, int size);
 
     CommentWithAuthorName addComment(int userId, int itemId, CommentDto commentDto);
 }

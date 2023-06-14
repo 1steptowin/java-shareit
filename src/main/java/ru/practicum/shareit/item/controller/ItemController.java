@@ -10,6 +10,7 @@ import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComment
 import ru.practicum.shareit.exception.UserNotFoundException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -43,13 +44,17 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemWithLastAndNextBookingAndComments> getItems(@RequestHeader(userIdHeader) int userId) throws UserNotFoundException {
-        return itemService.getItems(userId);
+    public List<ItemWithLastAndNextBookingAndComments> getItems(@RequestHeader(userIdHeader) int userId,
+                                                                @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
+                                                                @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) throws UserNotFoundException {
+        return itemService.getItems(userId,from,size);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestParam("text") String text) {
-        return itemService.search(text);
+    public List<ItemDto> search(@RequestParam("text") String text,
+                                @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
+                                @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+        return itemService.search(text,from,size);
     }
 
     @PostMapping(value = "{itemId}/comment")

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,9 +31,9 @@ public interface ItemRepo extends JpaRepository<Item, Integer>, ItemRepoCustomed
     @Query("update Item i set i.name = ?2 where i.id = ?1")
     void updateName(int id, String name);
 
-    List<Item> findAllByDescriptionContainingIgnoreCaseOrNameContainingIgnoreCase(String description, String name);
+    List<Item> findAllByDescriptionContainingIgnoreCaseOrNameContainingIgnoreCase(String description, String name, Pageable request);
 
     ItemWithLastAndNextBookingAndComments findItemWithLastAndNextBookingAndComments(int itemId, LocalDateTime now, boolean isOwner);
 
-    List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId, LocalDateTime now);
+    List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId, LocalDateTime now, Pageable page);
 }
