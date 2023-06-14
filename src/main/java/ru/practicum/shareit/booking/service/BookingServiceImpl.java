@@ -122,7 +122,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingStatus parseStatus(String state) {
         try {
             return BookingStatus.valueOf(state);
-        } catch (IllegalArgumentException e) {
+        } catch (Throwable e) {
             throw new WrongStatusException(String.format("Unknown state: %s", state));
         }
     }
