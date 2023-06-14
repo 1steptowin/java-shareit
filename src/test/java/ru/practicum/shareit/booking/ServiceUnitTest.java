@@ -97,6 +97,9 @@ public class ServiceUnitTest {
         List<BookingResponseDto> bookingsAll = bookingService
                 .getAllBookingsOfBookerByState(1, "ALL", 0, 10);
         assertThat(bookingsAll, hasSize(3));
+        assertThat(bookingsAll.get(0).getId(), equalTo(1L));
+        assertThat(bookingsAll.get(1).getId(), equalTo(2L));
+        assertThat(bookingsAll.get(2).getId(), equalTo(3L));
     }
 
     @Test
