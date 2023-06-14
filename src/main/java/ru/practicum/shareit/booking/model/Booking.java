@@ -39,10 +39,10 @@ public class Booking {
     LocalDateTime end;
     @Enumerated(EnumType.STRING)
     BookingStatus status;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "booker_id", referencedColumnName = "id")
     User booker;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     @JsonBackReference
     Item item;
