@@ -8,6 +8,7 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.projection.ItemRequestWithItems;
 
 import java.util.stream.Collectors;
+
 @UtilityClass
 public class ItemRequestMapper {
     public ItemRequest mapDtoToModel(ItemRequestDto requestDto) {

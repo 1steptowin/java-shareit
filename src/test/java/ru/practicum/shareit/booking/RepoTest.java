@@ -29,7 +29,6 @@ import static ru.practicum.shareit.booking.model.BookingStatus.APPROVED;
 import static ru.practicum.shareit.booking.model.BookingStatus.WAITING;
 
 @DataJpaTest
-@AutoConfigureTestDatabase
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RepoTest {
     @Autowired

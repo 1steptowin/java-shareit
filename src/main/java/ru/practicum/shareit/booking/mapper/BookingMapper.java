@@ -7,6 +7,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.projection.BookingShort;
 import ru.practicum.shareit.item.projection.ItemShort;
 import ru.practicum.shareit.user.projection.UserShort;
+
 @UtilityClass
 public class BookingMapper {
     public Booking mapDtoToModel(BookingRequestDto bookingRequestDto) {
