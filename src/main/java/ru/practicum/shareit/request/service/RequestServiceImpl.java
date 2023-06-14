@@ -32,17 +32,15 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private void checkIfUserExists(int userId) {
-        userRepo.findById(userId)
-                .orElseThrow(() -> {
-                    throw new UserNotFoundException("User " + userId + " does not exist");
-                });
+        if (!userRepo.existsById(userId)) {
+            throw new UserNotFoundException("User " + userId + " does not exist");
+        }
     }
 
     private void checkIfRequestExists(Long requestId) {
-        requestRepo.findById(requestId)
-                .orElseThrow(() -> {
-                    throw new RequestNotFoundException("Request " + requestId + " does not exist");
-                });
+        if (!requestRepo.existsById(requestId)) {
+            throw new RequestNotFoundException("Request " + requestId + " does not exist");
+        }
     }
 
     @Override

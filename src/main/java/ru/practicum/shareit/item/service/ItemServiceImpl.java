@@ -60,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private void checkIfUserExists(int userId) {
-        if (userRepo.findById(userId).isEmpty()) {
+        if (!userRepo.existsById(userId)) {
             throw new UserNotFoundException("User " + userId + " not found");
         }
     }
