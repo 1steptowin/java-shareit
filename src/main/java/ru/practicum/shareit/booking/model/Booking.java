@@ -12,7 +12,6 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -31,11 +30,9 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotNull
-    @Column(name = "start")
+    @Column(name = "start", nullable = false)
     LocalDateTime start;
-    @NotNull
-    @Column(name = "fin")
+    @Column(name = "fin", nullable = false)
     LocalDateTime end;
     @Enumerated(EnumType.STRING)
     BookingStatus status;

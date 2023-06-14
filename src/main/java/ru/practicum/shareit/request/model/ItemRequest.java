@@ -28,8 +28,7 @@ public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotNull
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     String description;
     @Column(name = "created")
     LocalDateTime created;
@@ -40,7 +39,7 @@ public class ItemRequest {
     )
     @JsonManagedReference
     List<Item> items;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     User user;
 
