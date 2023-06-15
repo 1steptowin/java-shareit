@@ -3,9 +3,8 @@ package ru.practicum.shareit.request.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.ShareitPageRequest;
 import ru.practicum.shareit.exception.RequestNotFoundException;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestWithItemsDto;
@@ -75,8 +74,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<ItemRequestWithItemsDto> getAllRequestsOfOtherUsers(int userId, int from, int size) {
         checkIfUserExists(Math.toIntExact(userId));
-        Pageable request = PageRequest.of(from > 0 ? from / size : 0, size);
-        return requestRepo.findAllByUser_IdNot(Math.toIntExact(userId), request).getContent().stream()
+        return requestRepo.findAllByUser_IdNot(Math.toIntExact(userId), new ShareitPageRequest(from,size)).getContent().stream()
                 .map(ItemRequestMapper::mapModelToDtoWithItems)
                 .collect(Collectors.toList());
     }

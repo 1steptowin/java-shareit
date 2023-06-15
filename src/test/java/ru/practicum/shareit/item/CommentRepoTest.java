@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.practicum.shareit.item.model.Comment;
@@ -23,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @DataJpaTest
-@AutoConfigureTestDatabase
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentRepoTest {
     @Autowired
