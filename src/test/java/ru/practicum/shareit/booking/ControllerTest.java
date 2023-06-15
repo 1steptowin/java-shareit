@@ -163,7 +163,7 @@ public class ControllerTest {
                         .param("state", "WRONG")
                         .param("from", "0")
                         .param("size", "10"))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error", equalTo("Wrong status")));
     }
 }
