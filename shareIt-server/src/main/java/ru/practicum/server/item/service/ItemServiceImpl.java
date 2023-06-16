@@ -140,7 +140,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemWithLastAndNextBookingAndComments> getItems(int userId, int from, int size) throws UserNotFoundException {
         LocalDateTime now = LocalDateTime.now();
-        return itemRepo.findAllWithLastAndNextBookingAndCommentsOrderByIdAsc(userId, now,
+        return itemRepo.findAllWithLastAndNextBookingAndCommentsOrderById(userId, now,
                 new ShareitPageRequest(from, size, Sort.by("id").ascending()));
     }
 
