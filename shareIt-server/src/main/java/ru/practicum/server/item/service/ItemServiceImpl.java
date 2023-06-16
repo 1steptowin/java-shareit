@@ -25,6 +25,7 @@ import ru.practicum.server.user.repo.UserRepo;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -140,7 +141,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemWithLastAndNextBookingAndComments> getItems(int userId, int from, int size) throws UserNotFoundException {
         LocalDateTime now = LocalDateTime.now();
-        return itemRepo.findAllWithLastAndNextBookingAndCommentsByOrderByIdAsc(userId, now, new ShareitPageRequest(from, size, Sort.by("ItemWithLastAndNextBookingAndComments.id").ascending()));
+        List<ItemWithLastAndNextBookingAndComments> list = itemRepo.findAllWithLastAndNextBookingAndComments(userId, now, new ShareitPageRequest(from, size, Sort.by("ItemWithLastAndNextBookingAndComments.id").ascending()));
+        Collections.reverse(list);
+        return list;
     }
 
     @Override
