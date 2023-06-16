@@ -8,7 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>server</artifactId>
+	<artifactId>shareIt-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>ShareIt Server</name>
