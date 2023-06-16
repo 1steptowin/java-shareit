@@ -38,5 +38,4 @@ public interface ItemRepo extends JpaRepository<Item, Integer>, ItemRepoCustomed
 
     List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId, LocalDateTime now, Pageable page);
 
-    List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId, LocalDateTime now, Sort sort);
 }

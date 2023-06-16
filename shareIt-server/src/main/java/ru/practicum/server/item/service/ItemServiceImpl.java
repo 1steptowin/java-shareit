@@ -3,7 +3,6 @@ package ru.practicum.server.item.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.server.ShareitPageRequest;
 import ru.practicum.server.booking.model.Booking;
@@ -25,6 +24,7 @@ import ru.practicum.server.user.repo.UserRepo;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -140,7 +140,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemWithLastAndNextBookingAndComments> getItems(int userId, int from, int size) throws UserNotFoundException {
         LocalDateTime now = LocalDateTime.now();
-        return itemRepo.findAllWithLastAndNextBookingAndComments(userId, now, Sort.by(Sort.Direction.ASC, "id"));
+        List<ItemWithLastAndNextBookingAndComments> list = itemRepo.findAllWithLastAndNextBookingAndComments(userId, now, new ShareitPageRequest(from,size));
+        list.sort(Comparator.comparingInt(ItemWithLastAndNextBookingAndComments::getId));
+        return list;
     }
 
     @Override
