@@ -46,7 +46,7 @@ public class Item {
     )
     @JsonManagedReference
     List<Comment> comments;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     @JsonBackReference
     ItemRequest request;

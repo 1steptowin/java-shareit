@@ -1,23 +1,23 @@
 package ru.practicum.shareit.item.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.projection.CommentWithAuthorName;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.BadUserForItem;
-import ru.practicum.shareit.item.exceptions.InvalidItemAvailable;
-import ru.practicum.shareit.item.exceptions.TextIsBlank;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
  * TODO Sprint add-controllers.
  */
+@Slf4j
 @RestController
 @RequestMapping("/items")
 public class ItemController {
@@ -31,33 +31,43 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(userIdHeader) int userId) throws UserNotFoundException, InvalidItemAvailable {
+    public ItemDto addItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(userIdHeader) int userId) throws UserNotFoundException {
+        log.info("Получен POST запрос /items");
         return itemService.addItem(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestBody ItemDto itemDto, @RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId) throws BadUserForItem {
+    public ItemDto updateItem(@RequestBody ItemDto itemDto, @RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId) {
+        log.info("Получен PATCH запрос /items/{itemID}");
         return itemService.updateItem(itemId, itemDto, userId);
     }
 
     @GetMapping("/{itemId}")
     public ItemWithLastAndNextBookingAndComments getItem(@RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId) {
+        log.info("Получен GET запрос /items/{itemId}");
         return itemService.getItem(userId,itemId);
     }
 
     @GetMapping
-    public List<ItemWithLastAndNextBookingAndComments> getItems(@RequestHeader(userIdHeader) int userId) throws UserNotFoundException {
-        return itemService.getItems(userId);
+    public List<ItemWithLastAndNextBookingAndComments> getItems(@RequestHeader(userIdHeader) int userId,
+                                                                @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
+                                                                @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) throws UserNotFoundException {
+        log.info("Получен GET запрос /items");
+        return itemService.getItems(userId,from,size);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> search(@RequestParam("text") String text) throws TextIsBlank {
-        return itemService.search(text);
+    public List<ItemDto> search(@RequestParam("text") String text,
+                                @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
+                                @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+        log.info("Получен GET запрос /items/search");
+        return itemService.search(text,from,size);
     }
 
     @PostMapping(value = "{itemId}/comment")
     public CommentWithAuthorName addComment(@RequestHeader(userIdHeader) int userId, @PathVariable("itemId") int itemId,
                                             @RequestBody @Valid CommentDto commentDto) {
+        log.info("Получен POST запрос /items/{itemId}/comment");
         return itemService.addComment(userId, itemId, commentDto);
     }
 }

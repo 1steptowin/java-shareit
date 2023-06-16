@@ -4,10 +4,9 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.ShareitPageRequest;
 import ru.practicum.shareit.booking.dto.BookingRequestDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
@@ -16,9 +15,9 @@ import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.projection.BookingShort;
 import ru.practicum.shareit.booking.repo.BookingRepo;
 import ru.practicum.shareit.exception.*;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.repo.ItemRepo;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.user.repo.UserRepo;
 
 import java.time.LocalDateTime;
@@ -169,25 +168,24 @@ public class BookingServiceImpl implements BookingService {
         checkIfOwnerExists(bookerId);
         BookingStatus requestedStatus = parseStatus(state);
         LocalDateTime now = LocalDateTime.now();
-        Pageable request = PageRequest.of(from > 0 ? from / size : 0, size);
         switch (requestedStatus) {
             case ALL:
-                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, request).getContent().stream()
+                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             case CURRENT:
-                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, request).getContent().stream()
+                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .filter(currentBookingsFunction.apply(now))
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             case PAST:
-                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, request).getContent().stream()
+                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .filter(pastBookingsFunction.apply(now))
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             case FUTURE:
-                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, request).getContent().stream()
+                return bookingRepo.findAllByBookerIdOrderByStartDesc(bookerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .filter(futureBookingsFunction.apply(now))
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             default:
-                return bookingRepo.findAllByBookerIdAndStatusOrderByStartDesc(bookerId, requestedStatus, request)
+                return bookingRepo.findAllByBookerIdAndStatusOrderByStartDesc(bookerId, requestedStatus, new ShareitPageRequest(from,size))
                         .getContent().stream()
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
         }
@@ -198,25 +196,24 @@ public class BookingServiceImpl implements BookingService {
         checkIfOwnerExists(ownerId);
         BookingStatus requestedStatus = parseStatus(state);
         LocalDateTime now = LocalDateTime.now();
-        Pageable request = PageRequest.of(from > 0 ? from / size : 0, size);
         switch (requestedStatus) {
             case ALL:
-                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, request).getContent().stream()
+                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             case CURRENT:
-                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, request).getContent().stream()
+                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .filter(currentBookingsFunction.apply(now))
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             case PAST:
-                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, request).getContent().stream()
+                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .filter(pastBookingsFunction.apply(now))
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             case FUTURE:
-                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, request).getContent().stream()
+                return bookingRepo.findAllByOwnerIdOrderByStartDesc(ownerId, new ShareitPageRequest(from,size)).getContent().stream()
                         .filter(futureBookingsFunction.apply(now))
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
             default:
-                return bookingRepo.findAllByOwnerIdAndStatusOrderByStartDesc(ownerId, requestedStatus, request)
+                return bookingRepo.findAllByOwnerIdAndStatusOrderByStartDesc(ownerId, requestedStatus, new ShareitPageRequest(from,size))
                         .getContent().stream()
                         .map(BookingMapper::mapProjectionToDto).collect(Collectors.toList());
         }

@@ -4,12 +4,13 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.ShareitPageRequest;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exceptions.ItemNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Comment;
@@ -20,7 +21,7 @@ import ru.practicum.shareit.item.repo.CommentRepo;
 import ru.practicum.shareit.item.repo.ItemRepo;
 import ru.practicum.shareit.request.repo.RequestRepo;
 import ru.practicum.shareit.user.repo.UserRepo;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -58,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private void checkIfUserExists(int userId) {
-        if (userRepo.findById(userId).isEmpty()) {
+        if (!userRepo.existsById(userId)) {
             throw new UserNotFoundException("User " + userId + " not found");
         }
     }
@@ -93,8 +94,8 @@ public class ItemServiceImpl implements ItemService {
         checkIfUserExists(userId);
         Item item = ItemMapper.toItem(itemDto);
         item.setOwner(userId);
-        if (itemDto.getRequest() != null) {
-                item.setRequest(requestRepo.findById(itemDto.getRequest().getId())
+        if (itemDto.getRequestId() != null) {
+                item.setRequest(requestRepo.findById(itemDto.getRequestId())
                         .orElseThrow(() -> {
                             throw new RequestNotFoundException("Request does not exist");
                         }));
@@ -138,18 +139,18 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemWithLastAndNextBookingAndComments> getItems(int userId) throws UserNotFoundException {
+    public List<ItemWithLastAndNextBookingAndComments> getItems(int userId, int from, int size) throws UserNotFoundException {
         LocalDateTime now = LocalDateTime.now();
-        return itemRepo.findAllWithLastAndNextBookingAndComments(userId, now);
+        return itemRepo.findAllWithLastAndNextBookingAndComments(userId, now, new ShareitPageRequest(from, size));
     }
 
     @Override
-    public List<ItemDto> search(String text) {
+    public List<ItemDto> search(String text, int from, int size) {
         if (text.isBlank()) {
             return new ArrayList<>();
         }
         return itemRepo.findAllByDescriptionContainingIgnoreCaseOrNameContainingIgnoreCase(text,
-                        text).stream()
+                        text, new ShareitPageRequest(from, size)).stream()
                 .filter(Item::getAvailable)
                 .map(ItemMapper::toItemDto).collect(Collectors.toList());
     }

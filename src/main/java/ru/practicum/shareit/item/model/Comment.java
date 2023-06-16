@@ -7,10 +7,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,14 +26,13 @@ public class Comment {
     Long id;
     @Column(name = "text")
     String text;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     User author;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     @JsonBackReference
     Item item;
-    @NotNull
-    @Column(name = "created")
+    @Column(name = "created", nullable = false)
     LocalDateTime created;
 }

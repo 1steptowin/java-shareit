@@ -1,4 +1,5 @@
 package ru.practicum.shareit.item.repo;
+import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.item.projection.ItemWithLastAndNextBookingAndComments;
 
 import java.time.LocalDateTime;
@@ -10,5 +11,6 @@ public interface ItemRepoCustomed {
                                                                                     boolean isOwner);
 
     List<ItemWithLastAndNextBookingAndComments> findAllWithLastAndNextBookingAndComments(int userId,
-                                                                                         LocalDateTime now);
+                                                                                         LocalDateTime now,
+                                                                                         Pageable page);
 }

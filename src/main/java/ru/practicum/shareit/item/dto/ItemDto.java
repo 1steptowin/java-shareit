@@ -2,7 +2,6 @@ package ru.practicum.shareit.item.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.shareit.request.model.ItemRequest;
 
 
 @Data
@@ -14,5 +13,5 @@ public class ItemDto {
     String name;
     String description;
     Boolean available;
-    ItemRequest request;
+    Long requestId;
 }
