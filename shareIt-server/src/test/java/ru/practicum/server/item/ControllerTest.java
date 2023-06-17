@@ -183,7 +183,9 @@ public class ControllerTest {
     void testGetOwnersItems() throws Exception {
         Mockito.when(itemService.getItems(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyInt())).thenReturn(List.of(itemWithInfo));
         mvc.perform(get("/items")
-                        .header(userIdHeader, "1"))
+                        .header(userIdHeader, "1")
+                        .param("from", "0")
+                        .param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(itemWithInfo.getId()), Integer.class))
@@ -204,7 +206,9 @@ public class ControllerTest {
     void testSearchItems() throws Exception {
         Mockito.when(itemService.search(Mockito.anyString(), Mockito.anyInt(),Mockito.anyInt())).thenReturn(List.of(item));
         mvc.perform(get("/items/search")
-                        .param("text", "item"))
+                        .param("text", "item")
+                        .param("from", "0")
+                        .param("size", "10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(item.getId()), Integer.class))
