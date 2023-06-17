@@ -8,8 +8,6 @@ import ru.practicum.server.booking.dto.BookingRequestDto;
 import ru.practicum.server.booking.dto.BookingResponseDto;
 import ru.practicum.server.booking.service.BookingService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -31,7 +29,7 @@ public class BookingController {
 
     @PostMapping
     public BookingResponseDto addBooking(@RequestHeader(userIdHeader) int userId,
-                                         @RequestBody @Valid BookingRequestDto bookingRequestDto) {
+                                         @RequestBody BookingRequestDto bookingRequestDto) {
         log.info("Получен POST запрос /bookings");
         return bookingService.addBooking(userId, bookingRequestDto);
     }
@@ -53,17 +51,17 @@ public class BookingController {
     @GetMapping
     public List<BookingResponseDto> getAllBookingsOfBookerByState(@RequestHeader(userIdHeader) int bookerId,
                                                                   @RequestParam(defaultValue = "ALL") String state,
-                                                                  @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
-                                                                  @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+                                                                  @RequestParam(required = false) int from,
+                                                                  @RequestParam(required = false) int size) {
         log.info("Получен GET запрос /bookings");
         return bookingService.getAllBookingsOfBookerByState(bookerId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<BookingResponseDto> getAllBookingsOfOwnerByState(@RequestHeader(userIdHeader) int ownerId,
-                                                                 @RequestParam(defaultValue = "ALL", required = false) String state,
-                                                                 @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
-                                                                 @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+                                                                 @RequestParam(required = false) String state,
+                                                                 @RequestParam(required = false) int from,
+                                                                 @RequestParam(required = false) int size) {
         log.info("Получен GET запрос /bookings/owner");
         return bookingService.getAllBookingsOfOwnerByState(ownerId, state, from, size);
     }

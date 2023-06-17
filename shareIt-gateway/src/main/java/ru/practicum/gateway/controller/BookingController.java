@@ -8,6 +8,7 @@ import ru.practicum.gateway.client.BookingClient;
 import ru.practicum.gateway.dto.booking.BookingRequestDto;
 import ru.practicum.gateway.dto.booking.BookingResponseDto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class BookingController {
 
     @PostMapping
     public Mono<BookingResponseDto> addBooking(@RequestHeader(USER_HEADER) Long userId,
-                                               @RequestBody BookingRequestDto bookingRequestDto) {
+                                               @RequestBody @Valid BookingRequestDto bookingRequestDto) {
         return client.addBooking(userId, bookingRequestDto);
     }
 

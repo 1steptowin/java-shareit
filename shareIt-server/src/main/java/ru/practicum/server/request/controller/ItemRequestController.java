@@ -8,8 +8,6 @@ import ru.practicum.server.request.dto.ItemRequestDto;
 import ru.practicum.server.request.dto.ItemRequestWithItemsDto;
 import ru.practicum.server.request.service.RequestService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
@@ -27,7 +25,7 @@ public class ItemRequestController {
 
     @PostMapping
     public ItemRequestDto addItemRequest(@RequestHeader(userIdHeader) int userId,
-                                         @RequestBody @Valid ItemRequestDto itemRequestDto) {
+                                         @RequestBody ItemRequestDto itemRequestDto) {
         log.info("Получен POST запрос /requests");
         return requestService.addItemRequest(userId, itemRequestDto);
     }
@@ -47,8 +45,8 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public List<ItemRequestWithItemsDto> getAllRequestsOfOtherUsers(@RequestHeader(userIdHeader) int userId,
-                                                                    @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
-                                                                    @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+                                                                    @RequestParam(required = false) int from,
+                                                                    @RequestParam(required = false) int size) {
         log.info("Получен GET запрос /requests/all");
         return requestService.getAllRequestsOfOtherUsers(userId, from, size);
     }

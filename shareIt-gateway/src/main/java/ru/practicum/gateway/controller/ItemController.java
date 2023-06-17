@@ -10,6 +10,7 @@ import ru.practicum.gateway.dto.item.ItemDto;
 import ru.practicum.gateway.dto.item.ItemWithLastAndNextBookingAndComments;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class ItemController {
     }
 
     @PostMapping
-    public Mono<ItemDto> addItem(@RequestHeader(USER_HEADER) Long userId, @RequestBody ItemDto itemDto) {
+    public Mono<ItemDto> addItem(@RequestHeader(USER_HEADER) Long userId, @RequestBody @Valid ItemDto itemDto) {
         return client.addItem(userId, itemDto);
     }
 
@@ -48,12 +49,16 @@ public class ItemController {
     }
 
     @GetMapping
-    public Mono<List<ItemWithLastAndNextBookingAndComments>> getOwnersItems(@RequestHeader(USER_HEADER) Long ownerId) {
-        return client.getAllOwnersItems(ownerId);
+    public Mono<List<ItemWithLastAndNextBookingAndComments>> getOwnersItems(@RequestHeader(USER_HEADER) Long ownerId,
+                                                                            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
+                                                                            @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+        return client.getAllOwnersItems(ownerId,from,size);
     }
 
     @GetMapping(SEARCH_PATH)
-    public Mono<List<ItemDto>> searchItems(@RequestParam String text) {
-        return client.searchItems(text);
+    public Mono<List<ItemDto>> searchItems(@RequestParam String text,
+                                           @RequestParam(required = false, defaultValue = "0") @PositiveOrZero int from,
+                                           @RequestParam(required = false, defaultValue = "10") @PositiveOrZero int size) {
+        return client.searchItems(text,from,size);
     }
 }

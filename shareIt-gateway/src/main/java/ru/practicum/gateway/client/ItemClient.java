@@ -75,18 +75,25 @@ public class ItemClient extends DomainClient {
                 });
     }
 
-    public Mono<List<ItemWithLastAndNextBookingAndComments>> getAllOwnersItems(Long ownerId) {
+    public Mono<List<ItemWithLastAndNextBookingAndComments>> getAllOwnersItems(Long ownerId, int from, int size) {
         return webClient.get()
-                .uri(String.format("%s%s", baseUrl, ITEM_URI))
-                .header(USER_HEADER, ownerId.toString())
+                .uri(uriBuilder -> uriBuilder
+                        .path(String.format("%s%s", baseUrl, ITEM_URI))
+                        .queryParam("from", from)
+                        .queryParam("size", size)
+                        .build())
+                        .header(USER_HEADER, ownerId.toString())
+
                 .retrieve().bodyToFlux(ItemWithLastAndNextBookingAndComments.class).collectList();
     }
 
-    public Mono<List<ItemDto>> searchItems(String text) {
+    public Mono<List<ItemDto>> searchItems(String text, int from, int size) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(String.format("%s%s%s", baseUrl, ITEM_URI, "search"))
                         .queryParam("text", text)
+                        .queryParam("from", from)
+                        .queryParam("size", size)
                         .build())
                 .retrieve().bodyToFlux(ItemDto.class).collectList();
     }

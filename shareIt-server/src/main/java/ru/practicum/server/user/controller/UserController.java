@@ -7,7 +7,6 @@ import ru.practicum.server.user.model.User;
 import ru.practicum.server.user.service.UserService;
 import ru.practicum.server.exception.UserNotFoundException;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public User addUser(@Valid @RequestBody User user) throws UserNotFoundException {
+    public User addUser(@RequestBody User user) throws UserNotFoundException {
         log.info("Получен POST запрос /users");
         return userService.addUser(user);
     }
